@@ -10,9 +10,6 @@ namespace dsa
 {
   class hash_table
   {
-  protected:
-    using data_t = std::pair<int, int>;
-    
   public:
     virtual
     ~hash_table() = default;
