@@ -6,6 +6,9 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib)
 add_library(stl_wrapper stl_wrapper.cxx)
 target_include_directories(stl_wrapper PUBLIC "${PROJECT_SOURCE_DIR}/include")
 
+add_library(chain chain.cxx)
+target_include_directories(chain PUBLIC "${PROJECT_SOURCE_DIR}/include")
+
 add_library(double_hash double_hash.cxx)
 target_include_directories(double_hash PUBLIC "${PROJECT_SOURCE_DIR}/include")
 
