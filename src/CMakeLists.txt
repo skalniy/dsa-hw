@@ -9,6 +9,9 @@ target_include_directories(stl_wrapper PUBLIC "${PROJECT_SOURCE_DIR}/include")
 add_library(double_hash double_hash.cxx)
 target_include_directories(double_hash PUBLIC "${PROJECT_SOURCE_DIR}/include")
 
+add_library(cuckoo cuckoo.cxx)
+target_include_directories(cuckoo PUBLIC "${PROJECT_SOURCE_DIR}/include")
+
 add_executable(${PROJECT_NAME} main.cxx)
 target_include_directories(${PROJECT_NAME} PUBLIC "${PROJECT_SOURCE_DIR}/include")
 

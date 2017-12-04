@@ -15,3 +15,9 @@ target_include_directories(DoubleHashTest PUBLIC "${PROJECT_SOURCE_DIR}/include"
 target_link_libraries(DoubleHashTest GTest::GTest GTest::Main)
 target_link_libraries(DoubleHashTest double_hash)
 GTEST_ADD_TESTS(DoubleHashTest "" AUTO)
+
+add_executable(CuckooTest CuckooUnitTest.cxx)
+target_include_directories(CuckooTest PUBLIC "${PROJECT_SOURCE_DIR}/include")
+target_link_libraries(CuckooTest GTest::GTest GTest::Main)
+target_link_libraries(CuckooTest cuckoo)
+GTEST_ADD_TESTS(CuckooTest "" AUTO)
