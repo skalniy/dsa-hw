@@ -34,7 +34,7 @@ namespace dsa
     };
     
   public:
-    cuckoo(std::size_t);
+    cuckoo(std::size_t = 8);
 
     virtual
     ~cuckoo() = default;

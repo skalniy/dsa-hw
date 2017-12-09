@@ -1,4 +1,4 @@
-#include "stl_wrapper.hxx"
+// #include "stl_wrapper.hxx"
 
 #include <cstdlib>
 
@@ -6,10 +6,12 @@
 #include <memory> // unique_ptr
 #include <string>
 
+#include HEADER_NAME
+
 int
 main()
 {
-  std::unique_ptr<dsa::hash_table> ht_ptr = std::make_unique<dsa::stl_wrapper>();
+  std::unique_ptr<dsa::hash_table> ht_ptr = std::make_unique<dsa::TABLE_NAME>();
 
   while (!std::cin.eof() && !std::cin.fail())
     {

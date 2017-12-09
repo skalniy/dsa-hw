@@ -31,7 +31,7 @@ namespace dsa
 
   public:
     explicit
-    chain(std::size_t);
+    chain(std::size_t = 8);
 
     bool virtual
     insert(const int, const int);

@@ -16,7 +16,8 @@ namespace dsa
   class double_hash : public hash_table
   {
   public:
-    double_hash(std::size_t);
+    explicit
+    double_hash(std::size_t = 8);
 
     virtual
     ~double_hash() = default;
