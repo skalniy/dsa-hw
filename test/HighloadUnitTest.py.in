@@ -1,0 +1,52 @@
+#!/usr/bin/env python3
+
+import subprocess
+import filecmp
+
+from enum import Enum
+import random
+import os
+import unittest
+
+class TestHighload(unittest.TestCase):
+    def setUp(self):
+        fname = "15"
+        op_count = 2 ** 14
+        i_fname, o_fname = "./test.dat", "./test.ans"
+        with open(i_fname, 'w', encoding='utf-8') as i_file, \
+                open(o_fname, 'w', encoding='utf-8') as o_file:
+            OP = Enum('OP', 'ADD DELETE SEARCH')
+            key_amp = int(op_count / 50)
+
+            ht = dict()
+            for _ in range(op_count):
+                op = random.choice(list(OP))
+                key = random.randrange(-key_amp, key_amp)
+                if op == OP.ADD:
+                    data = random.randint(-2**31, 2**31)
+                    i_file.write("{0:s} {1:d} {2:d}\n".format("add", key, data))
+                    if not key in ht.keys():
+                        ht[key] = data
+                        o_file.write("OK\n")
+                    else:
+                        o_file.write("FAIL\n")
+                elif op == OP.DELETE:
+                    i_file.write("{0:s} {1:d}\n".format("delete", key))
+                    o_file.write(("OK" if ht.pop(key, None) else "FAIL") + '\n')
+                elif op == OP.SEARCH:
+                    i_file.write("{0:s} {1:d}\n".format("search", key))
+                    o_file.write(str(ht.get(key, "null")) + '\n')
+                else:
+                    raise
+
+    def tearDown(self):
+        os.remove("test.dat")
+        os.remove("test.ans")
+
+    def test_chain(self):
+        os.system("@CMAKE_BINARY_DIR@/bin/chain <test.dat >test.res")
+        self.assertTrue(filecmp.cmp("test.res", "test.ans"))
+        os.remove("test.res")
+
+if __name__ == "__main__":
+    unittest.main()
