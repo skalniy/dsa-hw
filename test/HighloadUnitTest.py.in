@@ -11,12 +11,12 @@ import unittest
 class TestHighload(unittest.TestCase):
     def setUp(self):
         fname = "15"
-        op_count = 2 ** 14
+        op_count = 2 ** 9
         i_fname, o_fname = "./test.dat", "./test.ans"
         with open(i_fname, 'w', encoding='utf-8') as i_file, \
                 open(o_fname, 'w', encoding='utf-8') as o_file:
             OP = Enum('OP', 'ADD DELETE SEARCH')
-            key_amp = int(op_count / 50)
+            key_amp = int(op_count / 2)
 
             ht = dict()
             for _ in range(op_count):
@@ -37,16 +37,28 @@ class TestHighload(unittest.TestCase):
                     i_file.write("{0:s} {1:d}\n".format("search", key))
                     o_file.write(str(ht.get(key, "null")) + '\n')
                 else:
-                    raise
+                    pass
 
     def tearDown(self):
-        os.remove("test.dat")
-        os.remove("test.ans")
+        os.remove("./test.dat")
+        os.remove("./test.ans")
+        os.remove("./test.res")
+
+    def test_stl_wrapper(self):
+        os.system("@CMAKE_BINARY_DIR@/bin/stl_wrapper ./test.dat ./test.res")
+        self.assertTrue(filecmp.cmp("./test.res", "./test.ans"))
 
     def test_chain(self):
-        os.system("@CMAKE_BINARY_DIR@/bin/chain <test.dat >test.res")
-        self.assertTrue(filecmp.cmp("test.res", "test.ans"))
-        os.remove("test.res")
+        os.system("@CMAKE_BINARY_DIR@/bin/chain ./test.dat ./test.res")
+        self.assertTrue(filecmp.cmp("./test.res", "./test.ans"))
+
+    def test_cuckoo(self):
+        os.system("@CMAKE_BINARY_DIR@/bin/cuckoo ./test.dat ./test.res")
+        self.assertTrue(filecmp.cmp("./test.res", "./test.ans"))
+
+    def test_double_hash(self):
+        os.system("@CMAKE_BINARY_DIR@/bin/double_hash ./test.dat ./test.res")
+        self.assertTrue(filecmp.cmp("./test.res", "./test.ans"))
 
 if __name__ == "__main__":
     unittest.main()
