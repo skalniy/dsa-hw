@@ -49,7 +49,6 @@ TEST_F(CuckooTest, Rehash) {
     {
       ASSERT_FALSE(ht.search(key));
       ASSERT_TRUE(ht.insert(key, key));
-      std::cerr << ht;
       EXPECT_EQ(key, *ht.search(key));
       EXPECT_FALSE(ht.insert(key, key));
     }

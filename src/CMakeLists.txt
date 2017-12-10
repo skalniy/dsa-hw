@@ -1,4 +1,4 @@
-cmake_minimum_required (VERSION 3.8)
+cmake_minimum_required (VERSION 3.0)
 
 foreach(TABLE_NAME stl_wrapper chain double_hash cuckoo)
     add_library(${TABLE_NAME} "${TABLE_NAME}.cxx")
