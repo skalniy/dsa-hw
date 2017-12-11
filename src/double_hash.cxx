@@ -18,27 +18,43 @@ double_hash::double_hash(std::size_t sz)
 bool
 double_hash::insert(const int key, const int data)
 {
-  if (static_cast<bool>(this->search(key)))
-    return false;
-
-  if (m_size + 1 > (m_data.size() + 1) / 2)
+  if ((m_size + 1 > (m_data.size() + 1) / 2) && !static_cast<bool>(this->search(key)))
     m_rehash();
-
+  
   std::array<std::size_t, 2> h{ hash[0](key), hash[1](key) };
-  for (std::size_t i = 0; i < m_data.size(); ++i)
+  std::experimental::optional<std::size_t> to_insert_id;
+
+  std::size_t i = 0;
+  for (; i < m_data.size(); ++i)
     {
       std::size_t j = (h[0] + i * h[1]) % m_data.size();
+      if (m_data[j].first && m_data[j].first->first == key) // if key exists
+        return false;
 
-      if (!m_data[j].first) // if not exists
+      if (!m_data[j].first || m_data[j].second) // empty slot
         {
-          m_data[j].first.reset(new data_t(key, data));
-          m_data[j].second = false;
-          ++m_size;
-
-          return true;
+          to_insert_id = j;
+          break;
         }
     }
-  return false;
+
+  if (!to_insert_id) // if slot not found
+    return false;
+
+  // check if key is in next slots
+  for (; i < m_data.size(); ++i)
+    {
+      std::size_t j = (h[0] + i * h[1]) % m_data.size();
+      if (m_data[j].first && m_data[j].first->first == key) // if key exists
+          return false;
+      if (!m_data[j].first && !m_data[j].second) // if empty not marked as deleted
+        break;
+    }
+
+  m_data[*to_insert_id].first.reset(new data_t{ key, data });
+  m_data[*to_insert_id].second = false;
+  ++m_size;
+  return true;
 }
 
 bool
@@ -49,10 +65,9 @@ double_hash::erase(const int key)
   for (std::size_t i = 0; i < m_data.size(); ++i)
     {
       size_t j = (h[0] + i * h[1]) % m_data.size();
-
-      if (m_data[j].first) // if exists
+      if (m_data[j].first)
         {
-          if (m_data[j].first->first == key) // check key eq
+          if (m_data[j].first->first == key) // if key found
             {
               m_data[j].first.release();
               m_data[j].second = true;
