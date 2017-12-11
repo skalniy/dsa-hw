@@ -65,6 +65,7 @@ double_hash::erase(const int key)
   for (std::size_t i = 0; i < m_data.size(); ++i)
     {
       size_t j = (h[0] + i * h[1]) % m_data.size();
+
       if (m_data[j].first && m_data[j].first->first == key) // if key found
         {
           m_data[j].first.release();
@@ -72,9 +73,11 @@ double_hash::erase(const int key)
           --m_size;
           return true;
         }
+      
       if (!m_data[j].first && !m_data[j].second) // if empty not marked as deleted
         return false;
     }
+  
   return false;
 }
 
@@ -86,16 +89,15 @@ double_hash::search(const int key)
   for (std::size_t i = 0; i < m_data.size(); ++i)
     {
       size_t j = (h[0] + i * h[1]) % m_data.size();
+      
+      if (m_data[j].first && m_data[j].first->first == key) // if key found
+        return std::experimental::make_optional(m_data[j].first->second);
 
-      if (m_data[j].first) // if exists
-        {
-          if (m_data[j].first->first == key) // check key eq
-            return std::experimental::make_optional(m_data[j].first->second);
-        }
-      else if (!m_data[j].second) // if not marked as deleted
-        return std::experimental::optional<int>();
+      if (!m_data[j].first && !m_data[j].second) // if empty not marked as deleted
+        return std::experimental::nullopt;
     }
-  return std::experimental::optional<int>();
+  
+  return std::experimental::nullopt;
 }
 
 void
@@ -103,14 +105,6 @@ double_hash::m_rehash()
 {
   std::vector<std::pair<std::unique_ptr<data_t>, bool>> old_data(m_data.size() * 2);
   std::swap(m_data, old_data);
-
-  hash[0] = [this](const int key) -> std::size_t {
-    return key % this->m_data.size();
-  };
-  hash[1] = [this](const int key) -> std::size_t {
-    std::size_t res = key % this->m_data.size();
-    return res + (1 ^ res % 2);
-  };
 
   m_size = 0;
   for (std::size_t i = 0; i < old_data.size(); ++i)
