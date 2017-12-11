@@ -18,7 +18,7 @@ double_hash::double_hash(std::size_t sz)
 bool
 double_hash::insert(const int key, const int data)
 {
-  if ((m_size + 1 > (m_data.size() + 1) / 2) && !static_cast<bool>(this->search(key)))
+  if ((m_size + 1 > (m_data.size() + 1) / 2) && !this->search(key))
     m_rehash();
   
   std::array<std::size_t, 2> h{ hash[0](key), hash[1](key) };
@@ -65,17 +65,14 @@ double_hash::erase(const int key)
   for (std::size_t i = 0; i < m_data.size(); ++i)
     {
       size_t j = (h[0] + i * h[1]) % m_data.size();
-      if (m_data[j].first)
+      if (m_data[j].first && m_data[j].first->first == key) // if key found
         {
-          if (m_data[j].first->first == key) // if key found
-            {
-              m_data[j].first.release();
-              m_data[j].second = true;
-              --m_size;
-              return true;
-            }
+          m_data[j].first.release();
+          m_data[j].second = true;
+          --m_size;
+          return true;
         }
-      else if (!m_data[j].second) // if not marked as deleted
+      if (!m_data[j].first && !m_data[j].second) // if empty not marked as deleted
         return false;
     }
   return false;
