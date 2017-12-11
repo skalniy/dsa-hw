@@ -4,17 +4,21 @@
 #define DOUBLE_HASH_HXX
 
 #include "hash_table.hxx"
-
+ 
+#include <array>
+#include <functional>
 #include <iostream>
 #include <memory>   // unique_ptr
 #include <utility>  // pair
 #include <vector>
 
-
 namespace dsa
 {
   class double_hash : public hash_table
   {
+  private:
+    using hash_func_t = std::function<std::size_t(const int key)>;
+
   public:
     explicit
     double_hash(std::size_t = 8);
@@ -43,6 +47,8 @@ namespace dsa
     std::vector<std::pair<std::unique_ptr<data_t>, bool>> m_data;
 
     std::size_t m_size;
+
+    std::array<hash_func_t, 2> hash;
   };
 
   std::ostream&

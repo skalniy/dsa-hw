@@ -59,13 +59,12 @@ TEST_F(DoubleHashTest, Rehash) {
       EXPECT_FALSE(ht.search(key));
       ASSERT_FALSE(ht.erase(key));
     }
-  std::cerr << ht;
 }
 
 TEST_F(DoubleHashTest, Print) {
   std::string ans = R"([0]DELETED
-[1]
-[2]8 3
+[1]8 3
+[2]
 [3]
 [4]
 [5]
