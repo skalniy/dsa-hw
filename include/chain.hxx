@@ -6,6 +6,7 @@
 #include "hash_table.hxx"
 
 #include <functional>
+#include <iostream>
 #include <list>
 #include <vector>
 
@@ -30,10 +31,16 @@ namespace dsa
     std::experimental::optional<int> virtual
     search(const int);
 
+    friend std::ostream&
+    operator<<(std::ostream&, const chain&);
+
   private:
     std::vector<std::list<data_t>> m_data;
     hash_func_t hash;
   };
+
+  std::ostream&
+  operator<<(std::ostream&, const chain&);
 } // namespace dsa
 
 

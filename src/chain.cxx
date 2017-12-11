@@ -55,3 +55,16 @@ chain::search(const int key)
   
   return std::experimental::nullopt;
 }
+
+std::ostream&
+dsa::operator<<(std::ostream& os, const chain& obj)
+{
+  for (size_t i = 0; i < obj.m_data.size(); ++i)
+    {
+      os << '[' << i << ']';
+      for (const auto& el : obj.m_data[i])
+        os << "->" <<el.first << ' ' << el.second;
+      os << std::endl;
+    }
+  return os ;
+}
