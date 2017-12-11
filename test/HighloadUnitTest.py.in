@@ -22,12 +22,12 @@ class TestHighload(unittest.TestCase):
                     i_file.write("{0:s} {1:d} {2:d}\n".format("add", key, data))
                     if not key in ht.keys():
                         ht[key] = data
-                        o_file.write("OK\n")
+                        o_file.write("true\n")
                     else:
-                        o_file.write("FAIL\n")
+                        o_file.write("false\n")
                 elif op == OP.DELETE:
                     i_file.write("{0:s} {1:d}\n".format("delete", key))
-                    o_file.write(("OK" if ht.pop(key, None) else "FAIL") + '\n')
+                    o_file.write(("true" if ht.pop(key, None) else "false") + '\n')
                 elif op == OP.SEARCH:
                     i_file.write("{0:s} {1:d}\n".format("search", key))
                     o_file.write(str(ht.get(key, "null")) + '\n')
