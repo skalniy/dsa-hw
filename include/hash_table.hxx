@@ -3,6 +3,7 @@
 #ifndef HASH_TABLE_HXX
 #define HASH_TABLE_HXX
 
+#include <cstddef> // size_t
 #include <experimental/optional>
 
 
@@ -25,6 +26,13 @@ namespace dsa
 
     std::experimental::optional<int> virtual
     search(const int) = 0;
+
+    std::size_t virtual inline
+    size() const
+    { return m_size; }
+  
+  protected:
+    std::size_t m_size = 0;
   };
 } // namespace dsa
 

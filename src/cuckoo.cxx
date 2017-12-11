@@ -14,8 +14,7 @@ cuckoo::cuckoo(std::size_t sz)
     { 
       std::vector<std::unique_ptr<data_t>>(sz), 
       std::vector<std::unique_ptr<data_t>>(sz) 
-    },
-  m_size(0)
+    }
 {
   for (std::size_t idx = 0; idx < m_table.size(); ++idx)
     {

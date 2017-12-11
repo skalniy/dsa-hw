@@ -43,9 +43,7 @@ namespace dsa
 
   protected:
     std::array<std::vector<std::unique_ptr<data_t>>, 2> m_table;
-    std::size_t m_size;
-
-    // std::array<universal_hash, 2> m_hash;
+    
     std::array<hash_func_t, 2> m_hash;
   };
 

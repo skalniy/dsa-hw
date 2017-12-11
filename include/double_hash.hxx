@@ -46,8 +46,6 @@ namespace dsa
     // bool means is deleted
     std::vector<std::pair<std::unique_ptr<data_t>, bool>> m_data;
 
-    std::size_t m_size;
-
     std::array<hash_func_t, 2> hash;
   };
 

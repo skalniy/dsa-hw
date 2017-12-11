@@ -3,7 +3,7 @@
 using namespace dsa;
 
 double_hash::double_hash(std::size_t sz)
-: m_data(sz), m_size(0)
+: m_data(sz)
 {
   hash[0] = [this](const int key) -> std::size_t {
     return key % m_data.size();

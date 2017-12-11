@@ -45,6 +45,7 @@ TEST_F(ChainTest, EraseExistingKey) {
 
 TEST_F(ChainTest, Rehash) {
   std::vector<int> data = { 10, 22, 31, 4, 15, 28, 17, 88, 59 };
+  EXPECT_EQ(0, ht.size());
   for (const auto& key : data)
     {
       ASSERT_FALSE(ht.search(key));
@@ -52,6 +53,7 @@ TEST_F(ChainTest, Rehash) {
       EXPECT_EQ(key, *ht.search(key));
       EXPECT_FALSE(ht.insert(key, key));
     }
+  EXPECT_EQ(data.size(), ht.size());
   for (const auto& key : data)
     {
       EXPECT_EQ(key, *ht.search(key));
@@ -59,6 +61,7 @@ TEST_F(ChainTest, Rehash) {
       EXPECT_FALSE(ht.search(key));
       ASSERT_FALSE(ht.erase(key));
     }
+  EXPECT_EQ(0, ht.size());
 }
 
 int main(int argc, char **argv) {

@@ -26,6 +26,7 @@ chain::insert(const int key, const int data)
       return false;
 
   m_data[h].emplace_front(key, data);
+  ++m_size;
   return true;
 }
 
@@ -38,6 +39,7 @@ chain::erase(const int key)
     if (it->first == key)
       {
         m_data[h].erase(it);
+        --m_size;
         return true;
       }
 

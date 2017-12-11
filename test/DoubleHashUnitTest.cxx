@@ -45,6 +45,7 @@ TEST_F(DoubleHashTest, EraseExistingKey) {
 
 TEST_F(DoubleHashTest, Rehash) {
   std::vector<int> data = { 10, 22, 31, 4, 15, 28, 17, 88, 59 };
+  EXPECT_EQ(0, ht.size());
   for (const auto& key : data)
     {
       ASSERT_FALSE(ht.search(key));
@@ -52,6 +53,7 @@ TEST_F(DoubleHashTest, Rehash) {
       EXPECT_EQ(TESTVAL_DHUT, *ht.search(key));
       EXPECT_FALSE(ht.insert(key, TESTVAL_DHUT));
     }
+  EXPECT_EQ(data.size(), ht.size());
   for (const auto& key : data)
     {
       EXPECT_EQ(TESTVAL_DHUT, *ht.search(key));
@@ -59,6 +61,7 @@ TEST_F(DoubleHashTest, Rehash) {
       EXPECT_FALSE(ht.search(key));
       ASSERT_FALSE(ht.erase(key));
     }
+  EXPECT_EQ(0, ht.size());
 }
 
 TEST_F(DoubleHashTest, Print) {

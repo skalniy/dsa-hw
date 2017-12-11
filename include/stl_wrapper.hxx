@@ -27,6 +27,10 @@ namespace dsa
     std::experimental::optional<int> virtual
     search(const int);
 
+    std::size_t virtual inline
+    size() const
+    { return m_data.size(); }
+
   protected:
     std::unordered_map<int, int> m_data;
   };
