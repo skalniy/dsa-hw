@@ -5,6 +5,7 @@
 
 #include "hash_table.hxx"
 
+#include <functional>
 #include <list>
 #include <vector>
 
@@ -14,20 +15,7 @@ namespace dsa
   class chain : public hash_table
   {
   private:
-    class universal_hash
-    {
-    public:
-      explicit
-      universal_hash(std::size_t);
-
-      std::size_t
-      operator()(const int);
-
-    private:
-      std::size_t sz;
-
-      std::uint64_t a, b;
-    };
+    using hash_func_t = std::function<std::size_t(const int key)>;
 
   public:
     explicit
@@ -44,7 +32,7 @@ namespace dsa
 
   private:
     std::vector<std::list<data_t>> m_data;
-    universal_hash  hash;
+    hash_func_t hash;
   };
 } // namespace dsa
 
