@@ -1,20 +1,16 @@
 #include "cuckoo.hxx"
 
-#include <cassert>
+#include <cstdint>
 #include <ctime>
 #include <cmath>
 #include <unordered_set>
 
-using namespace dsa;
 
-
-cuckoo::universal_hash::universal_hash(std::size_t _sz)
-: sz(_sz)
-{
-  a = std::rand() % (RAND_MAX - 1) + 1;
-  b = std::rand();
-  std::cerr << a << ' ' << b <<std::endl;
+namespace {
+  static constexpr std::uint64_t p = 2147483659;
 }
+
+using namespace dsa;
 
 cuckoo::cuckoo(std::size_t sz)
 : m_table
@@ -22,17 +18,19 @@ cuckoo::cuckoo(std::size_t sz)
       std::vector<std::unique_ptr<data_t>>(sz), 
       std::vector<std::unique_ptr<data_t>>(sz) 
     },
-  m_size(0),
-  m_hash{ universal_hash(sz), universal_hash(sz) }
+  m_size(0)
 {
-  std::srand(std::time(0));
-}
+  std::uint64_t a = std::rand() % (p - 1) + 1;
+  std::uint64_t b = std::rand() % p;
+  m_hash[0] = [a, b, this](const int key) -> std::size_t {
+    return ((a * key + b) % p) % m_table[0].size();
+  };
 
-std::size_t
-cuckoo::universal_hash::operator()(const int x)
-{ 
-  static constexpr std::uint64_t prime = 2147483659;
-  return ((a*x + b) % prime) % sz; 
+  a = std::rand() % (p - 1) + 1;
+  b = std::rand() % p;
+  m_hash[1] = [a, b, this](const int key) -> std::size_t {
+    return ((a * key + b) % p) % m_table[1].size();
+  };
 }
 
 bool
@@ -118,6 +116,7 @@ cuckoo::search(const int key)
 void
 cuckoo::m_rehash(const std::size_t new_sz)
 {
+  std::cerr << "piff" << new_sz <<"\n";
   std::array<std::vector<std::unique_ptr<data_t>>, 2> old_table
     {
       std::vector<std::unique_ptr<data_t>>(new_sz), 
@@ -127,16 +126,26 @@ cuckoo::m_rehash(const std::size_t new_sz)
 
   m_size = 0;
 
-  for (std::size_t i = 0; i < m_hash.size(); ++i)
-    m_hash[i] = std::move(universal_hash(new_sz));
+  std::uint64_t a = std::rand() % (p - 1) + 1;
+  std::uint64_t b = std::rand() % p;
+  m_hash[0] = [a, b, this](const int key) -> std::size_t {
+    return ((a * key + b) % p) % m_table[0].size();
+  };
+
+  a = std::rand() % (p - 1) + 1;
+  b = std::rand() % p;
+  m_hash[1] = [a, b, this](const int key) -> std::size_t {
+    return ((a * key + b) % p) % m_table[1].size();
+  };
   
   for (std::size_t i = 0; i < old_table.size(); ++i)
     for (std::size_t j = 0; j < old_table[i].size(); ++j)
       if (old_table[i][j])
         {
+          std::cerr << "ins" << old_table[i][j]->first <<"\n";
           this->insert(old_table[i][j]->first, old_table[i][j]->second);
-          assert(this->search(old_table[i][j]->first) == old_table[i][j]->second);
         }
+    std::cerr << "puff" << new_sz <<"\n";
 }
 
 std::ostream&

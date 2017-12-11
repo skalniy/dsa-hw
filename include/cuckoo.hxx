@@ -6,7 +6,6 @@
 #include "hash_table.hxx"
 
 #include <array>
-#include <cstdint>
 #include <iostream>
 #include <memory>   // unique_ptr
 #include <utility>  // pair
@@ -18,21 +17,8 @@ namespace dsa
   class cuckoo : public hash_table
   {
   private:
-    class universal_hash
-    {
-    public:
-      explicit
-      universal_hash(std::size_t);
+    using hash_func_t = std::function<std::size_t(const int key)>;
 
-      std::size_t
-      operator()(const int);
-
-    private:
-      std::size_t sz;
-
-      std::uint64_t a, b;
-    };
-    
   public:
     cuckoo(std::size_t = 8);
 
@@ -59,7 +45,8 @@ namespace dsa
     std::array<std::vector<std::unique_ptr<data_t>>, 2> m_table;
     std::size_t m_size;
 
-    std::array<universal_hash, 2> m_hash;
+    // std::array<universal_hash, 2> m_hash;
+    std::array<hash_func_t, 2> m_hash;
   };
 
   std::ostream&
