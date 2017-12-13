@@ -14,11 +14,12 @@ class TestHighload(unittest.TestCase):
             key_amp = int(op_count / 2)
 
             ht = dict()
+            i_file.write("{0:d}\n".format(random.randrange(op_count)))
             for _ in range(op_count):
                 op = random.choice(list(OP))
-                key = random.randrange(-key_amp, key_amp)
+                key = random.randint(-key_amp, key_amp)
                 if op == OP.ADD:
-                    data = random.randint(-2**31, 2**31)
+                    data = random.randint(-2**30, 2**30)
                     i_file.write("{0:s} {1:d} {2:d}\n".format("add", key, data))
                     if not key in ht.keys():
                         ht[key] = data

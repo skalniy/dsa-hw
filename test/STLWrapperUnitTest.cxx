@@ -5,6 +5,8 @@
 
 class STLWrapperTest : public ::testing::Test {
   protected:
+    STLWrapperTest() : ht(8) {}
+
     dsa::stl_wrapper ht;
 };
 

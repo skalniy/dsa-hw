@@ -9,7 +9,8 @@ def generate(size_lg):
         size = 2 ** size_lg
         ht = dict()
 
-        keys = random.sample(range(-size - 5, size + 5), size+1)
+        keys = random.sample(range(-size, size), size)
+        i_file.write("{0:d}\n".format(size * 4))
         for key in keys:
             data = random.randint(-2**16, 2**16)
 

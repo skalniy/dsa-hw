@@ -13,7 +13,8 @@ namespace dsa
   class stl_wrapper : public hash_table
   {
   public:
-    stl_wrapper() = default;
+    explicit
+    stl_wrapper(std::size_t);
 
     virtual
     ~stl_wrapper() = default;

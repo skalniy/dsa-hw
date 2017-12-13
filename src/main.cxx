@@ -17,7 +17,10 @@ main(int argc, char *argv[])
   std::ofstream ofs(argv[2]);
   ofs.setf(std::ios_base::boolalpha);
 
-  std::unique_ptr<dsa::hash_table> ht_ptr(new dsa::TABLE_NAME());
+  std::size_t ht_sz = 0;
+  ifs >> ht_sz;
+
+  std::unique_ptr<dsa::hash_table> ht_ptr(new dsa::TABLE_NAME(ht_sz));
   while (!ifs.eof() && !ifs.fail())
     {
       std::clock_t c_start, c_end;

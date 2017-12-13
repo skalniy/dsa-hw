@@ -10,7 +10,7 @@ def main():
     parser.add_argument('--low', type=int, default=3, dest='low', help='low power of 2')
     args = parser.parse_args()
 
-    exe_names = ['chain', 'cuckoo', 'double_hash', 'stl_wrapper']
+    exe_names = ['stl_wrapper', 'chain', 'cuckoo', 'double_hash']
 
     for exe_name in exe_names:
         res = dict(add=dict(), delete=dict(), search=dict())
@@ -25,11 +25,17 @@ def main():
             if not filecmp.cmp("./{0:03d}.res".format(i), "./{0:03d}.ans".format(i)):
                 exit(-1)
 
+            if exe_name == 'stl_wrapper': 
+                continue
+
             for cmd in timelog:
                 op, _, t = cmd.split()
                 if opc not in res[op]:
                     res[op][opc] = list()
                 res[op][opc].append(int(t))
+
+        if exe_name == 'stl_wrapper': 
+            continue
 
         print("filtering data for", exe_name)
         for op, data in res.items():
@@ -42,7 +48,7 @@ def main():
             ax.set_xlabel('N')
             ax.set_ylabel('Clocks')
             ax.set_title(op)
-            plt.plot(x, y, '^')
+            plt.plot(x, y, '-')
             plt.savefig(exe_name+ '_' + op + '.png')
 
 if __name__ == "__main__":

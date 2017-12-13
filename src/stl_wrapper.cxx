@@ -5,6 +5,9 @@
 
 using namespace dsa;
 
+stl_wrapper::stl_wrapper(std::size_t)
+{ }
+
 bool
 stl_wrapper::insert(const int key, const int data)
 { return m_data.insert(std::make_pair(key, data)).second; }
