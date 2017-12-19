@@ -19,7 +19,7 @@ def generate(size_lg):
                 ht[key] = data
                 o_file.write("true\n")
 
-        for _ in range(1000):
+        for _ in range(10000):
             op = random.choice(list(OP))
             key = random.randrange(-size, size)
 

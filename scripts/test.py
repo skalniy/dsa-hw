@@ -48,7 +48,8 @@ def main():
             ax.set_xlabel('N')
             ax.set_ylabel('Clocks')
             ax.set_title(op)
-            plt.plot(x, y, '-')
+            plt.ylim([0, 10])
+            plt.plot(x, y, 'o')
             plt.savefig(exe_name+ '_' + op + '.png')
 
 if __name__ == "__main__":
