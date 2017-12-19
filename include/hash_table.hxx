@@ -27,6 +27,12 @@ namespace dsa
     std::experimental::optional<int> virtual
     search(const int) = 0;
 
+    std::experimental::optional<data_t> virtual
+    min() const = 0;
+
+    std::experimental::optional<data_t> virtual
+    max() const = 0;
+
     std::size_t virtual inline
     size() const
     { return m_size; }

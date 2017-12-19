@@ -13,7 +13,7 @@ def main():
     exe_names = ['stl_wrapper', 'chain', 'cuckoo', 'double_hash']
 
     for exe_name in exe_names:
-        res = dict(add=dict(), delete=dict(), search=dict())
+        res = dict(add=dict(), delete=dict(), search=dict(), min=dict(), max=dict())
         for i in range(args.low, args.high + 1):
             print(exe_name, "running for", i)
             opc = 2 ** i

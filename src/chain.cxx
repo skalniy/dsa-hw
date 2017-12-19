@@ -58,6 +58,38 @@ chain::search(const int key)
   return std::experimental::nullopt;
 }
 
+std::experimental::optional<chain::data_t> 
+chain::min() const
+{
+  if (!m_size)
+    return std::experimental::nullopt;
+
+  std::experimental::optional<data_t> result = std::experimental::nullopt;
+  for (const auto& bucket : m_data)
+    if (!bucket.empty())
+      for (const auto& el : bucket)
+        if (!result || el.second < result->second)
+          result = el;
+
+  return result;
+}
+
+std::experimental::optional<chain::data_t>
+chain::max() const
+{
+  if (!m_size)
+    return std::experimental::nullopt;
+
+  std::experimental::optional<data_t> result = std::experimental::nullopt;
+  for (const auto& bucket : m_data)
+    if (!bucket.empty())
+      for (auto el : bucket)
+        if (!result || el.second > result->second)
+          result = el;
+
+  return result;
+}
+
 std::ostream&
 dsa::operator<<(std::ostream& os, const chain& obj)
 {

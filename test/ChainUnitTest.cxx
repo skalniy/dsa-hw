@@ -64,6 +64,28 @@ TEST_F(ChainTest, Rehash) {
   EXPECT_EQ(0, ht.size());
 }
 
+TEST_F(ChainTest, Min) {
+  EXPECT_FALSE(ht.min());
+  ASSERT_TRUE(ht.insert(0, 1));
+  EXPECT_EQ(0, ht.min()->first);
+  EXPECT_TRUE(ht.erase(0));
+  EXPECT_FALSE(ht.min());
+  ASSERT_TRUE(ht.insert(0, 1));
+  EXPECT_TRUE(ht.insert(4, 2));
+  EXPECT_EQ(0, ht.min()->first);
+}
+
+TEST_F(ChainTest, Max) {
+  EXPECT_FALSE(ht.max());
+  ASSERT_TRUE(ht.insert(0, 1));
+  EXPECT_EQ(0, ht.max()->first);
+  EXPECT_TRUE(ht.erase(0));
+  EXPECT_FALSE(ht.max());
+  ASSERT_TRUE(ht.insert(0, 1));
+  EXPECT_TRUE(ht.insert(4, 2));
+  EXPECT_EQ(4, ht.max()->first);
+}
+
 int main(int argc, char **argv) {
   ::testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();

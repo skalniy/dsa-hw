@@ -125,6 +125,38 @@ cuckoo::m_rehash(const std::size_t new_sz)
         this->insert(old_table[i][j]->first, old_table[i][j]->second);
 }
 
+std::experimental::optional<cuckoo::data_t> 
+cuckoo::min() const
+{
+  if (!m_size)
+    return std::experimental::nullopt;
+
+  std::experimental::optional<data_t> result = std::experimental::nullopt;
+  for (const auto& table : m_table)
+    if (!table.empty())
+      for (const auto& el : table)
+        if (el && (!result || el->second < result->second))
+          result = *el;
+
+  return result;
+}
+
+std::experimental::optional<cuckoo::data_t>
+cuckoo::max() const
+{
+  if (!m_size)
+    return std::experimental::nullopt;
+
+  std::experimental::optional<data_t> result = std::experimental::nullopt;
+  for (const auto& table : m_table)
+    if (!table.empty())
+      for (const auto& el : table)
+        if (el && (!result || el->second > result->second))
+          result = *el;
+
+  return result;
+}
+
 std::ostream&
 dsa::operator<<(std::ostream& os, const dsa::cuckoo& obj)
 {

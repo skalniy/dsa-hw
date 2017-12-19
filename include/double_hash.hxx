@@ -35,6 +35,12 @@ namespace dsa
     std::experimental::optional<int> virtual
     search(const int);
 
+    std::experimental::optional<data_t> virtual
+    min() const;
+
+    std::experimental::optional<data_t> virtual
+    max() const;
+
     friend std::ostream&
     operator<<(std::ostream&, const double_hash&);
 

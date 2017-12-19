@@ -112,6 +112,34 @@ double_hash::m_rehash()
       this->insert(old_data[i].first->first, old_data[i].first->second);
 }
 
+std::experimental::optional<double_hash::data_t> 
+double_hash::min() const
+{
+  if (!m_size)
+    return std::experimental::nullopt;
+
+  std::experimental::optional<data_t> result = std::experimental::nullopt;
+  for (const auto& el : m_data)
+    if (el.first && !el.second && (!result || el.first->second < result->second))
+      result = *el.first;
+
+  return result;
+}
+
+std::experimental::optional<double_hash::data_t>
+double_hash::max() const
+{
+  if (!m_size)
+    return std::experimental::nullopt;
+
+  std::experimental::optional<data_t> result = std::experimental::nullopt;
+  for (const auto& el : m_data)
+    if (el.first && !el.second && (!result || el.first->second > result->second))
+      result = *el.first;
+
+  return result;
+}
+
 std::ostream&
 dsa::operator<<(std::ostream& os, const dsa::double_hash& obj)
 {

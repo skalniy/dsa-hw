@@ -25,36 +25,62 @@ main(int argc, char *argv[])
     {
       std::clock_t c_start, c_end;
       std::string cmd;
-      int key;
-      ifs >> cmd >> key;
+      ifs >> cmd;
 
-      if (cmd == "add")
-        {
-          int data;
-          ifs >> data;
-
-          c_start = std::clock();
-          auto result = ht_ptr->insert(key, data);
-          c_end = std::clock();
-
-          ofs << result << std::endl;
-        }
-      else if (cmd == "search") 
+      if (cmd == "min") 
         {
           c_start = std::clock();
-          auto result = ht_ptr->search(key);
+          auto result = ht_ptr->min();
           c_end = std::clock();
 
-          ofs << (result ? std::to_string(*result) : "null") << std::endl;
+          if (result)
+            ofs << result->first << ' ' << result->second << std::endl;
+          else
+            ofs << 'null' << std::endl;
         }
-      else if (cmd == "delete")
+      else if (cmd == "max") 
         {
           c_start = std::clock();
-          auto result = ht_ptr->erase(key);
+          auto result = ht_ptr->max();
           c_end = std::clock();
 
-          ofs << result << std::endl;
+          if (result)
+            ofs << result->first << ' ' << result->second << std::endl;
+          else
+            ofs << 'null' << std::endl;
         }
+      else {
+        int key;
+        ifs >> key;
+
+        if (cmd == "add")
+          {
+            int data;
+            ifs >> data;
+
+            c_start = std::clock();
+            auto result = ht_ptr->insert(key, data);
+            c_end = std::clock();
+
+            ofs << result << std::endl;
+          }
+        else if (cmd == "search") 
+          {
+            c_start = std::clock();
+            auto result = ht_ptr->search(key);
+            c_end = std::clock();
+
+            ofs << (result ? std::to_string(*result) : "null") << std::endl;
+          }
+        else if (cmd == "delete")
+          {
+            c_start = std::clock();
+            auto result = ht_ptr->erase(key);
+            c_end = std::clock();
+
+            ofs << result << std::endl;
+          }
+      }
       if (!cmd.empty())  
         std::cerr 
           << cmd << ' ' 
