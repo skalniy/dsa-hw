@@ -18,7 +18,7 @@ def main():
             print(exe_name, "running for", i)
             opc = 2 ** i
             timelog = subprocess.run(
-                ["/home/skalniy/dev/cpp/dsa-hw/build/bin/" + exe_name, "./{0:03d}.dat".format(i), "./{0:03d}.res".format(i)],
+                ["@CMAKE_RUNTIME_OUTPUT_DIRECTORY@/" + exe_name, "./{0:03d}.dat".format(i), "./{0:03d}.res".format(i)],
                 stderr=subprocess.PIPE
             ).stderr.decode('utf-8').split('\n')[opc : -1]
 
@@ -50,7 +50,7 @@ def main():
             ax.set_title(op)
             plt.ylim([0, 10])
             plt.plot(x, y, 'o')
-            plt.savefig("/home/skalniy/dev/cpp/dsa-hw/img/" + exe_name + '_' + op + '.png')
+            plt.savefig("@PROJECT_SOURCE_DIR@/img/" + exe_name + '_' + op + '.png')
 
 if __name__ == "__main__":
     main()
