@@ -57,6 +57,7 @@
 Построим графики зависимости времени выполнения операции от количества элементов в хеш-таблице _N_.
 
 **chain**
+
 ![Add](img/chain_add.png)
 ![Delete](img/chain_delete.png)
 ![Search](img/chain_search.png)
@@ -64,6 +65,7 @@
 ![Max](img/chain_max.png)
 
 **double_hash**
+
 ![Add](img/double_hash_add.png)
 ![Delete](img/double_hash_delete.png)
 ![Search](img/double_hash_search.png)
@@ -71,6 +73,7 @@
 ![Max](img/double_hash_max.png)
 
 **cuckoo**
+
 ![Add](img/cuckoo_add.png)
 ![Delete](img/cuckoo_delete.png)
 ![Search](img/cuckoo_search.png)
