@@ -33,3 +33,8 @@
 
 build/*
 .vscode/*
+
+# Test results
+*.ans
+*.res
+*.dat
